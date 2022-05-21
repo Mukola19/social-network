@@ -1,0 +1,96 @@
+.avatar {
+  width: 200px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & div {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.body {
+  width: 65%;
+  padding: 10px;
+
+  & h1 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.analytics {
+  display: flex;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 300px;
+  justify-content: space-between;
+}
+
+.description {
+  width: 300px;
+  margin-top: 15px;
+  & p {
+    font-size: 15px;
+    font-weight: 400;
+  }
+}
+
+//ava
+
+.profileAvatar {
+  display: grid;
+  height: 230px;
+}
+
+.avatarWrapper {
+  display: flex;
+  width: 190px !important;
+  height: 190px !important;
+
+  border-radius: 50%;
+}
+
+.controllFile {
+  position: relative;
+
+  & input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    font-size: 0;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+
+  & div {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;border: 2px solid darkblue;
+
+  }
+
+
+
+
+
+
+
+
+  .buttonLabel {
+    width: 100%;
+  }
+
+  & label {
+    cursor: pointer;
+    background-color: red;
+    width: 190px !important;
+    height: 33px;
+  }
+}

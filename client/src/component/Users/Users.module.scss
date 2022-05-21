@@ -1,0 +1,49 @@
+$hidth: 610px;
+
+.paper {
+  margin-bottom: 20px;
+  height: $hidth;
+  padding-bottom: 5px;
+}
+
+.list {
+  overflow-y: auto;
+  width: 100%;
+  height: calc($hidth - 56px);
+
+  & .addButton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
+.loader {
+  position: absolute;
+  color: rgb(180, 180, 180) !important;
+  z-index: 100;
+  top: 230px;
+  left: 180px;
+}
+
+.listItem {
+  margin-top: 10px;
+  padding: 5px 0px 5px 0px;
+  width: 200px;
+}
+
+// style for SearchUser
+
+.searchForm {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 4px;
+}
+
+.selectSearch {
+  height: 35px;
+  margin-right: 10px;
+}

@@ -1,0 +1,15 @@
+.profile {
+  position: relative;
+  display: flex;
+  padding: 10px;
+  height: 200px;
+  justify-content: space-around;
+}
+
+.loader {
+  position: absolute;
+  z-index: 100;
+  color: rgb(180, 180, 180) !important;
+  top: 51%;
+  left: 54%;
+}
