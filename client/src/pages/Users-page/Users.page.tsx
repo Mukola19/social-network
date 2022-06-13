@@ -1,11 +1,14 @@
 import React, { memo, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { cleaningUsers, requestUsers } from '../../redux/reducers/usersReducer'
-import { getUsersFilter, getUsersState } from '../../redux/selectors/usersSelector'
+import {
+  getUsersFilter,
+  getUsersState,
+} from '../../redux/selectors/usersSelector'
 import { UserList } from '../../component/Users/UserList'
 import transformer from '../../utils/transformer'
 import { useAppDispatch, useAppSelector } from '../../hooks/typingHooks'
-import { IUsersParams } from '../../types/usersType'
+import { UsersParamsType } from '../../types/usersType'
 
 type ParamsTypes = {
   term: string
@@ -19,17 +22,15 @@ export const UsersPage: React.FC = memo(() => {
   const [query, setQuery] = useSearchParams()
 
   const dispatch = useAppDispatch()
-  
 
   useEffect(() => {
     const params = Object.fromEntries(query)
-    const actualParams: IUsersParams = { page, filter: { friend, term } }
+    const actualParams: UsersParamsType = { page, filter: { friend, term } }
     if (params.friend) actualParams.filter.friend = params.friend
     if (params.term) actualParams.filter.term = params.term
     if (params.page) actualParams.page = Number(params.page)
 
     dispatch(requestUsers(actualParams))
-    
 
     return (): void => {
       dispatch(cleaningUsers())
@@ -44,7 +45,18 @@ export const UsersPage: React.FC = memo(() => {
     setQuery(params)
   }, [term, friend, page])
 
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler)
+
+    // return () => document.removeEventListener('scroll', scrollHandler)
+  }, [])
+
+  const scrollHandler = (e: Event) => {
+    console.log('scroll');
+    
+  }
+
   return (
-    <UserList users={users} isLoading={isLoading} totalCount={totalCount} />
+    <UserList users={users} isLoading={isLoading} totalCount={totalCount}  />
   )
 })

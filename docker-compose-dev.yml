@@ -1,0 +1,77 @@
+version: '3.7'
+services:
+  ## ADMIN ##
+  admin:
+    image: phpmyadmin/phpmyadmin:latest
+    # links:
+    #  - mysql_db: mysql_db
+    depends_on:
+      - mysql_db
+    ports:
+      - '8080:80'
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      PMA_HOST: mysql_db
+      PMA_PORT: 3306
+    networks:
+      - database
+   
+  ## MYSQL ##
+  mysql_db:
+    image: mysql:8.0.29
+    container_name: mysql_db
+    volumes:
+      - ./database/data/dev:/var/lib/mysql
+    environment:
+      MYSQL_TCP_PORT: 3306
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: social_network
+    restart: always
+    networks:
+      - database
+
+  ## SERVER ##
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    networks:
+      - webapp
+      - database
+    ports:
+      - 5000:5000
+    volumes:
+      - ./server/node_modules:/app/node_modules
+      - ./server/src:/app/src
+      - ./server/dist:/app/dist
+    depends_on:
+      - mysql_db
+    restart: always
+    command: 'npm run start:dev'
+    container_name: server
+    env_file: 
+      - ./server/.development.env
+  ## CLIENT ##
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./client/.env
+    volumes:
+      - ./client/node_modules:/app/node_modules
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+    networks:
+      - webapp
+    ports:
+      - 3000:3000
+    command: npm start
+    stdin_open: true
+    restart: always
+    container_name: client
+networks:
+  webapp:
+    driver: bridge
+  database:
+    driver: bridge

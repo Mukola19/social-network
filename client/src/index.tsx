@@ -3,23 +3,20 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route } from 'react-router-dom'
 import { ThemeProvider } from '@emotion/react'
-// import { createTheme } from '@mui/system'
 import App from './App'
 import store from './redux/store'
 import './index.scss'
-
 import { createTheme } from '@mui/material/styles'
-import { green, purple } from '@mui/material/colors'
+import { SnackbarProvider } from 'notistack'
 
 const theme = createTheme({
   palette: {
     primary: {
       main: 'rgb(58, 92, 112)',
     },
-    // secondary: {
-    //   main: "#222",
-    // },
   },
+ 
+  
 })
 
 ReactDOM.render(
@@ -27,7 +24,9 @@ ReactDOM.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-         <App />
+          <SnackbarProvider maxSnack={3}>
+            <App />
+          </SnackbarProvider>
         </Provider>
       </ThemeProvider>
     </BrowserRouter>

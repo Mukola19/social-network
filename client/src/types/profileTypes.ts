@@ -1,18 +1,21 @@
-export interface IProfile {
-  id: number | null
-  aboutMe: string
-  contacts: IContact[]
-  lookingForAJob: string
-  photoUrl: string
+export interface IProfileApi {
+  id: number
+  email: string
   fullName: string
-  followed: boolean
+  photoUrl: string
+  aboutMe: string
+  lookingForAJob: string
   readrsCount: number
   toFollowCount: number
+  followedByIs: null
+  followerIs: null
   owner: boolean
 }
 
-export interface IContact {
-  id: number
-  name: string
-  link: string
+export type ProfileFormValue = {
+  email: string
+  fullName: string
+  aboutMe: string
+  photo: File | null
+  lookingForAJob: boolean
 }

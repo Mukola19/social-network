@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { CircularProgress, Paper } from '@mui/material'
 import { ProfileAva } from '../../component/Profile/ProfileAva'
 import { ProfileBody } from '../../component/Profile/ProfileBody'
-import { getUser } from '../../redux/reducers/profileReducer'
+import { requestProfile } from '../../redux/reducers/profileReducer'
 import { getUserProfile } from '../../redux/selectors/profileSelector'
 import { useAppSelector } from '../../hooks/typingHooks'
 import st from './Profile.page.module.scss'
@@ -15,11 +15,11 @@ type QuizParams = {
 
 export const ProfilePage: React.FC = () => {
   const dispatch = useDispatch()
-  const { isLoading, ...user } = useAppSelector(getUserProfile)
+  const {isLoading, ...user} = useAppSelector(getUserProfile)
   const { userId } = useParams<QuizParams>()
 
   useEffect(() => {
-    dispatch(getUser(Number(userId)))
+   dispatch(requestProfile(Number(userId))) 
   }, [userId])
 
   if(!user.id) return <></>

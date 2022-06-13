@@ -1,0 +1,179 @@
+.formInput {
+  display: inline-block;
+  align-content: stretch;
+  align-items: stretch;
+  flex-direction: column;
+  flex: 0 0 auto;
+}
+
+.formInput input {
+  background: 0 0;
+  border: 1px solid #dbdbdb;
+  border: 1px solid rgba(var(--ca6, 219, 219, 219), 1);
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #262626;
+  color: rgba(var(--i1d, 38, 38, 38), 1);
+  flex: 0 1 355px;
+  font-size: 16px;
+  height: 32px;
+  padding: 0 10px;
+  width: 295px;
+}
+
+.formArea {
+  background: 0 0;
+  border: 1px solid #dbdbdb;
+  border: 1px solid rgba(var(--ca6, 219, 219, 219), 1);
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #262626;
+  color: rgba(var(--i1d, 38, 38, 38), 1);
+  flex: 0 1 355px;
+  font-size: 16px;
+  height: 60px;
+  padding: 6px 10px;
+  resize: vertical;
+}
+
+.adjustment {
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.formSubmit {
+  float: right;
+  margin-left: 20px !important;
+}
+
+.formControll {
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  width: 570px;
+  display: flex;
+  flex-direction: row;
+}
+
+@media (min-width: 736px) {
+  .formControll {
+    flex-direction: row;
+  }
+}
+@media (max-width: 735px) {
+  .formControll {
+    flex-direction: column;
+    margin-bottom: 8px;
+  }
+}
+
+.formLabel {
+  box-sizing: border-box;
+  color: #262626;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 6px;
+  width: 150px;
+}
+
+@media (min-width: 736px) {
+  .formLabel {
+    padding-left: 32px;
+    padding-right: 32px;
+    text-align: right;
+  }
+}
+@media (max-width: 735px) {
+  .formLabel {
+    flex-basis: 25px;
+    padding: 0 20px;
+  }
+}
+
+.selectPhoto {
+  display: flex;
+  align-items: center;
+}
+
+.controllFile {
+  position: relative;
+
+  & input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    font-size: 0;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  & div {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    border: 2px solid darkblue;
+  }
+
+  .buttonLabel {
+    width: 100%;
+  }
+
+  & label {
+    cursor: pointer;
+    width: 190px !important;
+    height: 33px;
+  }
+}
+
+.formError {
+  color: red;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+//settings profile photo
+
+.settingsProfilePhoto {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  width: 570px;
+  flex-direction: row;
+}
+
+.selectPhotoImg {
+  box-sizing: border-box;
+  color: #262626;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 6px;
+  width: 150px;
+
+  padding-left: 77px;
+  padding-right: 32px;
+  text-align: right;
+}
+
+.img {
+  height: 38px;
+  width: 38px;
+}
+
+.buttonLabel {
+  display: inline-block;
+  align-content: stretch;
+  align-items: stretch;
+  flex-direction: column;
+  flex: 0 0 auto;
+
+  padding-left: 32px;
+  padding-right: 32px;
+  text-align: right;
+  // flex-basis: 25px;
+  // padding: 0 20px;
+}

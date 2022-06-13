@@ -9,6 +9,10 @@ import IconButton from '@mui/material/IconButton'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { LinkItem } from './LinkItem'
 import { Drawer } from '../../../commons/Drawer/Drawer'
+import { ListItemButtonLink } from '../../../commons/Elements/ListItemButtonLink/ListItemButtonLink'
+import { ListItemIcon, ListItemText } from '@mui/material'
+
+import st from './AppMenu.module.scss'
 
 type AppMenuProps = {
   open: boolean
@@ -32,17 +36,30 @@ export const AppMenu: React.FC<AppMenuProps> = ({ toggleDrawer, open }) => {
       </Toolbar>
       <Divider />
       <List component="nav">
-        <LinkItem path={'/chat'} title={'Чат'}>
-          <ChatIcon />
-        </LinkItem>
+  
 
-        <LinkItem path={'/news'} title={'Новини'}>
-          <NewspaperIcon />
-        </LinkItem>
+        <ListItemButtonLink to={'chat'} activeClassName={st.activePage}>
+          <ListItemIcon>
+            <ChatIcon />
+          </ListItemIcon>
+          <ListItemText primary="Чат" />
+        </ListItemButtonLink>
 
-        <LinkItem path={'/users'} title={'Користувачі'}>
-          <GroupIcon />
-        </LinkItem>
+        <ListItemButtonLink to={'news'} activeClassName={st.activePage}>
+          <ListItemIcon>
+            <NewspaperIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="Новини" />
+        </ListItemButtonLink>
+
+        <ListItemButtonLink to={'users'} activeClassName={st.activePage}>
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="Користувачі" />
+        </ListItemButtonLink>
       </List>
     </Drawer>
   )

@@ -20,6 +20,13 @@
   }
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 280px;
+}
+
 .analytics {
   display: flex;
   margin-top: 15px;
@@ -67,21 +74,6 @@
     cursor: pointer;
     z-index: 10;
   }
-
-
-  & div {
-    display: inline-flex;
-    width: 20px;
-    height: 20px;border: 2px solid darkblue;
-
-  }
-
-
-
-
-
-
-
 
   .buttonLabel {
     width: 100%;

@@ -1,12 +1,12 @@
 import React from 'react'
-import { AppAccountMenu } from '../../../commons/AppAccountIcon/AppAccountMenu'
-import { AppAccountItem } from '../../../commons/AppAccountIcon/AppAccountItem'
+import { useNavigate } from 'react-router-dom'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { AppAccountMenu } from '../../../commons/AppAccountIcon/AppAccountMenu'
+import { AppAccountItem } from '../../../commons/AppAccountIcon/AppAccountItem'
 import { getAuth } from '../../../redux/selectors/authSelector'
 import { useAppDispatch, useAppSelector } from '../../../hooks/typingHooks'
-import { useNavigate } from 'react-router-dom'
 import { logout } from '../../../redux/reducers/authReducer'
 import { AppAvatar } from '../../../commons/AppAvatar/AppAvatar'
 
@@ -16,6 +16,8 @@ export const AccountMenu: React.FC = () => {
   const dispatch = useAppDispatch()
   const logoutHandler = () => {
     dispatch(logout())
+    navigate('/auth')
+
   }
 
   if (!id) {
@@ -33,7 +35,7 @@ export const AccountMenu: React.FC = () => {
       <AppAccountItem title={'Профіль'} path={'/profile/' + id}>
         <AccountCircleIcon />
       </AppAccountItem>
-      <AppAccountItem title={'Настройкі'}>
+      <AppAccountItem title={'Настройкі'} path={'/settings/profile'}>
         <SettingsIcon />
       </AppAccountItem>
 

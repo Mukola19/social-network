@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UsersApi } from '../../API/usersApi'
-import { IUser, IUsersParams } from '../../types/usersType'
+import { IUserApi, UsersParamsType, IUsersApi } from '../../types/usersType'
 import { AppThunk } from '../store'
 import { actionWithUser } from './profileReducer'
 
 type UserManipulType = {
   userId: number
-  followed: boolean
+  followedByIs: boolean
 }
 
 type FollowStateType = {
@@ -16,7 +16,7 @@ type FollowStateType = {
 
 type SetUsersTypes = {
   totalCount: number
-  items: IUser[]
+  items: IUserApi[]
   page: number
   filter?: {
     term: string
@@ -30,9 +30,9 @@ type SetFilterTypes = {
 }
 
 
-let initialState = {
-  users: [] as IUser[],
-  count: 6 as number,
+const initialState = {
+  users: [] as IUserApi[],
+  count: 15 as number,
   totalCount: 10 as number,
   page: 1 as number,
   processes: [] as number[],
@@ -42,6 +42,9 @@ let initialState = {
   },
   isLoading: false as boolean,
 }
+
+export type UsersStateType = typeof initialState
+ 
 
 const userReleases = createSlice({
   name: 'userReleases',
@@ -65,7 +68,7 @@ const userReleases = createSlice({
     ) => {
       state.users.forEach((u) => {
         if (u.id == payload.userId) {
-          u.followed = !payload.followed
+          u.followedByIs = !payload.followedByIs
         }
       })
     },
@@ -119,18 +122,19 @@ export const requestUsers = (params: ParamsTypes): AppThunk => async (dispatch, 
       dispatch(setLoading(true))
       dispatch(cleaningUsers())
       dispatch(setFilter(params.filter))
-      const userData = await UsersApi.requestUsers({ count, ...params })
-      dispatch(setUsers({ page: params.page, ...userData }))
-    } catch (e) {
+      const result = await UsersApi.requestUsers({ count, ...params })
+      dispatch(setUsers({ page: params.page, ...result.data }))
+    } catch (e:any) {
+      window.enqueueSnackbar(e?.message, { variant: 'error' })
       dispatch(cleaningUsers())
     }
     dispatch(setLoading(false))
   }
 
-export const userManipulation = (userId: number, followed: boolean): AppThunk =>  async (dispatch) => {
+export const userManipulation = (userId: number, followedByIs: boolean): AppThunk =>  async (dispatch) => {
     dispatch(followedState({ logical: true, userId }))
-    if (await actionWithUser(followed, userId)) {
-      dispatch(userManipulationRed({ userId, followed }))
+    if (await actionWithUser(followedByIs, userId)) {
+      dispatch(userManipulationRed({ userId, followedByIs }))
     }
     dispatch(followedState({ logical: false, userId }))
   }

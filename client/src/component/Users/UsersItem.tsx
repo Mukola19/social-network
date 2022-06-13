@@ -7,34 +7,37 @@ import { AppButton } from '../../commons/AppButton/AppButton'
 import { userManipulation } from '../../redux/reducers/usersReducer'
 import { getUsersState } from '../../redux/selectors/usersSelector'
 import st from './Users.module.scss'
-import { IUser } from '../../types/usersType'
+import { IUserApi } from '../../types/usersType'
 
-export const UsersItem: React.FC<IUser> = ({
-  id,
-  fullName,
-  photoUrl,
-  followed,
-}) => {
+type ItemTextType = (a: boolean, b: boolean) => string
+
+export const UsersItem: React.FC<IUserApi> = (props) => {
+  const { id, fullName, photoUrl, followedByIs, followerIs } = props
   const { processes } = useSelector(getUsersState)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const manipulation = () => {
-    dispatch(userManipulation(id, followed))
+    dispatch(userManipulation(id, followedByIs))
+  }
+  const itemText: ItemTextType = (followedByIs, followerIs) => {
+    if (!followedByIs && followerIs) return 'Також стежити'
+    if (followedByIs) return 'Не стежити'
+    else return 'Стежити'
   }
 
   return (
     <ListItem
       className={st.listItem}
       secondaryAction={
-        followed !== null && (
+        followedByIs !== null && (
           <AppButton
-            edge='end'
+            edge="end"
             variant={'error'}
             onClick={manipulation}
-            disabled={followed === null || processes.some((i) => i === id)}
+            disabled={followedByIs === null || processes.some((i) => i === id)}
           >
-            <ListItemText children={followed ? 'Не стежити' : 'Стежити'} />
+            <ListItemText children={itemText(followedByIs, followerIs)} />
           </AppButton>
         )
       }

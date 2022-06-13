@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { InputHTMLAttributes, useState } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -9,25 +9,41 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import {  useForm } from 'react-hook-form'
+import { SubmitHandler, useForm, UseFormRegister } from 'react-hook-form'
 import { login, registration } from '../../redux/reducers/authReducer'
 import { useAppDispatch } from '../../hooks/typingHooks'
+import { FormAuthType } from '../../types/authTypes'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { styled, createTheme, ThemeProvider } from '@mui/system'
+import { refType } from '@mui/utils'
+import { NavLink } from 'react-router-dom'
+import st from './Auth.page.module.scss'
 
-
-interface IValueAuth {
-  fullName?: string
-  email: string
-  password: string
-}
+const schema = yup
+  .object({
+    fullName: yup.string(),
+    email: yup.string().required().email(),
+    password: yup.string().required().max(16).min(4),
+  })
+  .required()
 
 export const AuthPage: React.FC = () => {
   const [isRegister, setIsRegister] = useState<boolean>(false)
-  const { register, handleSubmit, reset } = useForm<IValueAuth>({
-    defaultValues: { fullName: '', email: '', password: '' },
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty, isValid, errors },
+  } = useForm<FormAuthType>({
+    resolver: yupResolver(schema),
+    mode: 'onChange',
   })
+
   const dispatch = useAppDispatch()
 
-  const submit = (data: IValueAuth): void => {
+  const submit: SubmitHandler<FormAuthType> = (data) => {
     if (isRegister) return dispatch(registration(data))
     dispatch(login(data))
   }
@@ -38,79 +54,66 @@ export const AuthPage: React.FC = () => {
   }
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+      <Box className={st.box}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           {isRegister ? 'Зареєструватись' : 'Війти'}
         </Typography>
         <Box
-          component='form'
+          component="form"
+          className={st.form}
           onSubmit={handleSubmit(submit)}
-          noValidate
-          sx={{ mt: 1 }}
         >
           {isRegister && (
             <TextField
-              margin='normal'
-              required
-              fullWidth
-              // error={true}
+              error={!!errors?.fullName?.message}
               label="Ім'я"
-              {...register('fullName')}
-              autoComplete='off'
+              {...register('fullName', { required: true })}
+              autoComplete="off"
               autoFocus
+              className={st.textField}
             />
           )}
 
           <TextField
-            margin='normal'
-            required
-            fullWidth
-            // error={true}
-            label='Електрона адреса'
+            error={!!errors?.email?.message}
+            label="Електрона адреса"
             {...register('email')}
-            autoComplete='email'
             type={'email'}
+            autoComplete="email"
             autoFocus
+            className={st.textField}
           />
           <TextField
-            margin='normal'
-            required
-            fullWidth
+            error={!!errors?.password?.message}
+            label="Пароль"
             {...register('password')}
-            label='Пароль'
-            type='password'
-            autoComplete='current-password'
+            autoComplete="current-password"
+            type="password"
+            className={st.textField}
           />
 
           <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            sx={{ mt: 3, mb: 2 }}
+            type="submit"
+            variant="contained"
+            disabled={!isDirty || !isValid}
+            className={st.buttonSubmit}
           >
             {isRegister ? 'Зареєструватись' : 'Війти'}
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href='#' variant='body2' onClick={changeMode}>
-                {isRegister
-                  ? 'Є акаунт? Війти'
-                  : 'Немає акаунта? Зареєструватись'}
-              </Link>
-            </Grid>
-          </Grid>
+          <Container className={st.footBar}>
+            <NavLink to="#" onClick={changeMode}>
+              {isRegister
+                ? 'Є акаунт? Війти'
+                : 'Немає акаунта? Зареєструватись'}
+            </NavLink>
+
+            <NavLink to="/settings/password/reset/key">Забули пароль?</NavLink>
+          </Container>
         </Box>
       </Box>
     </Container>

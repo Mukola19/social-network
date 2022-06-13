@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export const useSelectFile = () => {
+export const useSelectFile = (throwOutTheFile?: (file: File) => void) => {
   const [selectedFile, setSelectedFile] = useState<File>()
   const [preview, setPreview] = useState<string>('')
 
@@ -25,6 +25,9 @@ export const useSelectFile = () => {
     }
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
+    if(throwOutTheFile) {
+    throwOutTheFile(e.target.files[0])
+    }
   }
 
   const clearSelectedFile = () => {

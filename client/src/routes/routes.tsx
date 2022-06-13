@@ -23,6 +23,6 @@ export const privateRoutes: RouteType[] = [
   { path: '/music', exact: false, element: <MusicPage /> },
   { path: '/news', exact: false, element: <NewsPage /> },
   { path: '/profile/:userId', exact: false, element: <ProfilePage /> },
-  { path: '/settings', exact: false, element: <SettingsPage /> },
+  { path: '/settings/:page', exact: false, element: <SettingsPage/ >},
   { path: '/chat', exact: false, element: <ChatPage /> },
 ]

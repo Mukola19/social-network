@@ -1,42 +1,34 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { profileManipulation } from '../../redux/reducers/profileReducer'
-import { IContact, IProfile } from '../../types/profileTypes'
+import {
+  profileManipulation,
+  ProfileStateType,
+} from '../../redux/reducers/profileReducer'
 import st from './Profile.module.scss'
 
-interface IProfileBody {
-  id: number | null
-  aboutMe: string
-  contacts: IContact[]
-  lookingForAJob: string
-  photoUrl: string
-  fullName: string
-  followed: boolean
-  readrsCount: number
-  toFollowCount: number
-  owner: boolean
-  waitFollowed: boolean
-}
+type PropsType = Omit<ProfileStateType, 'isLoading'>
 
-export const ProfileBody: React.FC<IProfileBody> = (props) => {
+export const ProfileBody: React.FC<PropsType> = (props) => {
   const {
     id,
     fullName,
     lookingForAJob,
-    contacts,
-    followed,
     readrsCount,
     toFollowCount,
     waitFollowed,
+    followedByIs,
     owner,
+    aboutMe,
   } = props
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const manipulation = () => {
     if (id) {
-      dispatch(profileManipulation(id, followed))
+      dispatch(profileManipulation(id, followedByIs))
     }
   }
 
@@ -45,7 +37,14 @@ export const ProfileBody: React.FC<IProfileBody> = (props) => {
 
   return (
     <div className={st.body}>
-      <h1>{fullName}</h1>
+      <div className={st.header}>
+        <h1>{fullName}</h1>
+        {owner ? (
+          <Button variant="outlined" onClick={() => navigate('/settings/profile')}>
+            Налаштувати профіль
+          </Button>
+        ) : null}
+      </div>
 
       <div className={st.analytics}>
         <div>
@@ -58,15 +57,15 @@ export const ProfileBody: React.FC<IProfileBody> = (props) => {
           Стежить: <span>{toFollowCount || 0}</span>
         </div>
       </div>
+      <p className={st.description}>Про мене: {aboutMe}</p>
 
-      <div className={st.description}>
-        <p> Я шукаю роботу: {lookingForAJob ? 'Yes' : 'No'}</p>
-        <p> Контакти: {contacts}</p>
-      </div>
+      <p className={st.description}>
+        Я шукаю роботу: {lookingForAJob ? 'Yes' : 'No'}
+      </p>
 
       {owner ? null : (
-        <Button onClick={manipulation} disabled={waitFollowed}>
-          {selectTextFollow(followed)}
+        <Button onClick={manipulation} disabled={waitFollowed} variant={'contained'}>
+          {selectTextFollow(followedByIs)}
         </Button>
       )}
     </div>
